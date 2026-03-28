@@ -1,7 +1,7 @@
 #include "octree.hpp"
 #include "dnc.hpp"
-#include "viewer/viewer.hpp"
 #include "io.hpp"
+#include <chrono>
 
 int main(){
     float xmax = -INFINITY, xmin = INFINITY, ymax = -INFINITY, ymin = INFINITY, zmax = -INFINITY, zmin = INFINITY;
@@ -29,6 +29,9 @@ int main(){
         cin >> filename;
         Root root;
         root = prosesFile(filename);
+
+        auto start = chrono::steady_clock::now(); // Start Timer        
+
         for (Point p : root.vertices){
             xmax = max(xmax, p.x);
             xmin = min(xmin, p.x);
@@ -52,24 +55,25 @@ int main(){
         root.algorithm(&octree,0,depth);
         
         Result result = root.konversiVoxel();
+
+        auto end = chrono::steady_clock::now(); // End Timer
+        chrono::duration<double> durations = end-start;
+
         string fend;
         cout << "Masukkan nama file akhir: ";
-        cin >> fend;
+        cin >> fend; 
         tulisFile(fend,result);
-        cout << "File berhasil diproses dan disimpan sebagai " << fend << ".obj\n";
-        cout << "---INFOMRASI TAMBAHAN---\n" << "Banyaknya Voxel Yang terbentuk: " << Root::VOXEL_COUNT 
-        << "\nBanyaknya Vertex: " << Root::VERTICES_COUNT << "\nBanyaknya Faces: " << Root::FACES_COUNT;
+        cout << "\n---INFOMRASI OUTPUT---\n" << "Banyaknya Voxel Yang terbentuk: " << Root::VOXEL_COUNT 
+        << "\nBanyaknya Vertex yang terbentuk: " << Root::VERTICES_COUNT << "\nBanyaknya Faces yang terbentuk: " << Root::FACES_COUNT;
         
-        cout << "\nBanyaknya Node Octree yang terbentuk\n";
-        for (int i=1;i<=depth;i++){cout << i << ": " << Root::NODE_UNUSED[i]+Root::NODE_USED[i] << "\n";}
-        cout << "Banyaknya Node Octree yang tidak ditelusuri\n";
-        for (int i=1;i<=depth;i++){cout << i << ": " << Root::NODE_UNUSED[i] << "\n";}
+        cout << "\nBanyaknya Node Octree yang terbentuk: \n";
+        for (int i=0;i<depth;i++){cout << i+1 << ": " << Root::NODE_UNUSED[i]+Root::NODE_USED[i] << "\n";}
+        cout << "Banyaknya Node Octree yang tidak ditelusuri: \n";
+        for (int i=0;i<depth;i++){cout << i+1 << ": " << Root::NODE_UNUSED[i] << "\n";}
 
+        cout << "Waktu Komputasi Algoritma: " << durations.count() << "s\n\n";
+        cout << "[File berhasil diproses dan disimpan sebagai " << fend << ".obj di dalam folder test/]\n";
     }else if (opsi == "2"){
-        // View File
-        cout << "Masukkan nama file: ";
-        string filename;
-        cin >> filename;
-        viewer(filename);
+        cout << "BELUM DIIMPLEMENTASIKAN!";
     }
 }

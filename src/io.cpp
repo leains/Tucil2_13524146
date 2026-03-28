@@ -15,24 +15,33 @@ Root prosesFile(string file){
     while (getline(File, line)) {
         if (line.empty()) continue;
 
-        istringstream iss(line);
-        char c;
-        iss >> c;
+        istringstream input(line);
+        char c, slash;
+        input >> c;
 
         if (c == 'v' || c == 'V') {
             float x, y, z;
-            if (iss >> x >> y >> z) {
+
+            if (input.peek() != ' ' && input.peek()!='\t') continue;
+            if (input >> x >> y >> z) {
                 Point p = Point(x, y, z);
                 R.vertices.push_back(p);
                 idxVertices++;
             }
         } else if (c == 'f' || c == 'F') {
-            int v1, v2, v3;
-            if (iss >> v1 >> v2 >> v3) {
+            string v1, v2, v3;
+
+            if (input.peek() != ' ' && input.peek()!='\t') continue;
+            if (input >> v1 >> v2 >> v3) {
+                int vc1,vc2,vc3;
+                vc1 = stoi(v1);
+                vc2 = stoi(v2);
+                vc3 = stoi(v3);
+
                 Point f1,f2,f3;
-                f1 = Point(R.vertices[v1-1].x, R.vertices[v1-1].y, R.vertices[v1-1].z);
-                f2 = Point(R.vertices[v2-1].x, R.vertices[v2-1].y, R.vertices[v2-1].z);
-                f3 = Point(R.vertices[v3-1].x, R.vertices[v3-1].y, R.vertices[v3-1].z);
+                f1 = Point(R.vertices[vc1-1].x, R.vertices[vc1-1].y, R.vertices[vc1-1].z);
+                f2 = Point(R.vertices[vc2-1].x, R.vertices[vc2-1].y, R.vertices[vc2-1].z);
+                f3 = Point(R.vertices[vc3-1].x, R.vertices[vc3-1].y, R.vertices[vc3-1].z);
                 Face f = Face(f1,f2,f3);
                 R.faces.push_back(f);
                 idxFaces++;

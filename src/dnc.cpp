@@ -75,16 +75,15 @@ void Root::algorithm(OctreeNode* octree, int depth, int target){
                 octree->children[i]->info.fill = false;
             }
         }
-        cerr << "depth=" << depth << " selesai\n";
         // Concurrency untuk tiap rekursif (Thread hanya sampai 3 sesuai dengan THREAD_LIMIT di dnc.hpp)
         if (depth < THREAD_LIMIT){
             thread threads[8];
             for (int i = 0; i < 8; i++){
                 if (octree->children[i]->info.fill){
-                    NODE_USED[depth+1]++;
+                    NODE_USED[depth]++;
                     threads[i] = thread(&Root::algorithm, this, octree->children[i], depth+1, target);
                 }else{
-                    NODE_UNUSED[depth+1]++;
+                    NODE_UNUSED[depth]++;
                     threads[i] = thread([]{});
                 }
             }
@@ -94,9 +93,9 @@ void Root::algorithm(OctreeNode* octree, int depth, int target){
         }else{
             for (int i = 0; i < 8; i++){
                 if (octree->children[i]->info.fill){
-                    NODE_USED[depth+1]++;
+                    NODE_USED[depth]++;
                     algorithm(octree->children[i], depth+1, target);
-                }else{NODE_UNUSED[depth+1]++;}
+                }else{NODE_UNUSED[depth]++;}
             }
         }
     }
