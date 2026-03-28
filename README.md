@@ -1,12 +1,19 @@
 # Tugas Kecil 2 - Strategi Algoritma IF2211
 
-Program voxelisasi mesh 3D menggunakan algoritma *Divide and Conquer*. Menerima input file `.obj` dan mengkonversi mesh (faces & vertices) menjadi representasi voxel.
+Program voxelisasi mesh 3D menggunakan algoritma *Divide and Conquer*. Program menerima input file `.obj` dan mengkonversi mesh (faces & vertices) menjadi representasi voxel. Dengan menggunakan konsep octree, proses divide and conquer dilakukan secara rekursif dengan membagi kubus menjadi 8 kubus kecil sama besarnya. Hasil akhir program adalah merealisasikan proses voxelisasi mesh 3d yang terdiri dari vertices dan faces menjadi sebuah vertices dan faces dari voxel-voxel yang bentuknya menyerupai bentuk mesh. Enjoy!!
+
+## Structure
+- bin : Executable file
+- doc : Laporan
+- src : Code Algoritma
+- test : File .obj (hasil konversi dan bentuk mesh)
+
 
 ## Requirements
 
-- C++17
-- CMake 3.10+
-- MinGW / g++ (Windows) atau GCC (Linux)
+- C++17 
+- CMake 3.10+ (https://cmake.org/download/)
+- MinGW / g++ (Windows) atau GCC (Linux) 
 
 ## Build
 ```bash
@@ -41,9 +48,13 @@ Ikuti langkah berikut:
 4. Masukkan nama file output untuk ekspor hasil
 
 [WARNING]
+
 File .obj yang valid adalah : 
 1. Faces adalah segitiga
 2. Hanya memperhitungkan vertex dan faces
+3. Faces hanya berisi informasi mengenai vertex
+
+Pelanggaran terhadap ketentuan di atas akan mengakibatkan hasil voxelisasi tidak sesuai harapan. 
 
 ## Author
 
