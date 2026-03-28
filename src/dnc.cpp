@@ -75,6 +75,7 @@ void Root::algorithm(OctreeNode* octree, int depth, int target){
                 octree->children[i]->info.fill = false;
             }
         }
+        cerr << "depth=" << depth << " selesai\n";
         // Concurrency untuk tiap rekursif (Thread hanya sampai 3 sesuai dengan THREAD_LIMIT di dnc.hpp)
         if (depth < THREAD_LIMIT){
             thread threads[8];
@@ -98,30 +99,6 @@ void Root::algorithm(OctreeNode* octree, int depth, int target){
                 }else{NODE_UNUSED[depth+1]++;}
             }
         }
-    }
-}
-
-void Root::fillVoxel(OctreeNode* octree, int depth, int target){
-    if (depth==target){
-        if (octree->info.fill){
-            lock_guard<mutex> lock(VoxelMutex);
-            voxels.push_back(octree->info);
-        }
-        return;
-    }
-    if (octree->isOneElmt()){
-        return;
-    }
-    thread threads[8];
-    for (int i = 0; i < 8; i++){
-        if (octree->children[i]->info.fill){
-            threads[i] = thread(&Root::fillVoxel, this, octree->children[i], depth+1, target);
-        }else{
-            threads[i] = thread([]{});
-        }
-    }
-    for (int i = 0; i < 8; i++){
-        threads[i].join();
     }
 }
 
@@ -170,7 +147,3 @@ Result Root::konversiVoxel(){
 
     return result;
 }
-
-
-
-

@@ -1,17 +1,25 @@
 #include "octree.hpp"
 #include "dnc.hpp"
-#include "viewer.hpp"
+#include "viewer/viewer.hpp"
 #include "io.hpp"
 
 int main(){
     float xmax = -INFINITY, xmin = INFINITY, ymax = -INFINITY, ymin = INFINITY, zmax = -INFINITY, zmin = INFINITY;
     // 2 OPSI : Proses File atau View File
     string opsi;
-    cout << "WELCOME\nPILIH OPSI : \n1. PROSES FILE\n2. VIEW FILE\nMasukkan opsi: ";
+    cout <<R"(
+                 __      _____________.____   _________  ________      _____  ___________._._._. 
+                /  \    /  \_   _____/|    |  \_   ___ \ \_____  \    /     \ \_   _____/| | | | 
+                \   \/\/   /|    __)_ |    |  /    \  \/  /   |   \  /  \ /  \ |    __)_ | | | | 
+                \        / |        \|    |__\     \____/    |    \/    Y    \|        \ \|\|\| 
+                \__/\  / /_______  /|_______ \______  /\_______  /\____|__  /_______  / ______ 
+                    \/          \/         \/      \/         \/         \/        \/  \/\/\/
+    )" << "\n";
+    cout << "PILIH OPSI : \n1. PROSES FILE\n2. VIEW FILE\nMasukkan opsi: ";
     cin >> opsi;
     // Input File
     while (opsi != "1" && opsi != "2"){
-        cout << "Opsi invalid!!!. Masukkan opsi: ";
+        cout << "\nOpsi invalid!!!. Masukkan opsi: ";
         cin >> opsi;
     }
     if (opsi == "1"){
@@ -59,5 +67,9 @@ int main(){
 
     }else if (opsi == "2"){
         // View File
+        cout << "Masukkan nama file: ";
+        string filename;
+        cin >> filename;
+        viewer(filename);
     }
 }

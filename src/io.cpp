@@ -4,7 +4,7 @@
 Root prosesFile(string file){
     Root R;
     int idxVertices = 1, idxFaces = 1;
-    ifstream File(file + ".obj");
+    ifstream File("../test/" + file + ".obj");
     
     if (!File.is_open()) {
         cerr << "Error: Cannot open file " << file << ".obj" << endl;
@@ -45,7 +45,7 @@ Root prosesFile(string file){
 }
 
 void tulisFile(string file, Result result){
-    ofstream File(file + ".obj");
+    ofstream File("../test/" + file + ".obj");
     
     for (Point v: result.vertices){
         File << "v " << v.x << " " << v.y << " " << v.z << "\n";
